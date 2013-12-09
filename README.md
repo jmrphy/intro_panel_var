@@ -1,5 +1,4 @@
-References for very short introduction to Panel VAR
-==========================
+## References for very short introduction to Panel VAR
 
 Love, Inessa, and Lea Zicchino. “Financial Development and Dynamic Investment Behavior: Evidence From Panel VAR.” The Quarterly Review of Economics and Finance 46, no. 2 (May 2006): 190–210. doi:10.1016/j.qref.2005.11.007.
 
