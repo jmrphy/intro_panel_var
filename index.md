@@ -6,7 +6,7 @@ job         : '@jmrphy'
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
-widgets     : []            # {mathjax, quiz, bootstrap}
+widgets     : mathjax            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 ---
 
@@ -31,6 +31,12 @@ mode        : selfcontained # {standalone, draft}
 ---
 
 ## What is Panel VAR?
+
+Pools the time-series of multiple units (Hood et. al 2008; Hurlin and Venet 2001):
+
+$$ y_{i,t} = \alpha_{i} + \sum_{k=1}^p \gamma^{(k)} y_{i,t-k} + \sum_{k=0}^p \beta_i^{(k)} x_{i,t-k} + v_{i,t} $$
+
+for each of the cross-sections *i* and for all *t* in [1,T].
 
 
 
