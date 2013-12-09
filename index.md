@@ -14,8 +14,7 @@ mode        : selfcontained # {standalone, draft}
 
 1. What is VAR?
 2. What is Panel VAR?
-3. What can one use it for?
-4. An example
+3. Example with code
 
 ---
 
@@ -36,8 +35,46 @@ Pools the time-series of multiple units (Hood et. al 2008; Hurlin and Venet 2001
 
 $$ y_{i,t} = \alpha_{i} + \sum_{k=1}^p \gamma^{(k)} y_{i,t-k} + \sum_{k=0}^p \beta_i^{(k)} x_{i,t-k} + v_{i,t} $$
 
-for each of the cross-sections *i* and for all *t* in [1,T].
+for each of the cross-sections *i* and for all *t* in [1,T], where
 
+$$ \gamma^{(k)} $$ represents the autoregressive coefficients and
+$$ \beta_i^{(k)} $$ represents the regression coefficients
 
+---
+
+## Stata Implementation
+
+- In 2006, a Stata implementation was made available by Inessa Love at the World Bank
+
+- Not integrated into Stata yet, so you have to use it manually
+
+![Stata Program](https://dl.dropboxusercontent.com/u/20498362/Love_program.png)
+
+---
+
+## Basic Workflow
+> 1. Time de-mean the variables
+> 2. Use the "Helmert procedure" (Arellano and Bover 1995)
+      - removes the mean of all future observations of the unit-year.
+      - Keeps orthogonality between transformed variables and regressors so lagged regressors can be used as instruments in system GMM
+> 3. Estimate panel VAR using system GMM
+> 4. Graph impulse responses using Monte Carlo simulations
+
+---
+
+## Script
+
+gen id=scode
+xtset id year
+
+foreach v of varlist var1 var2 var3 {  
+bysort id: egen mean_`v'=mean(`v')  
+gen demean_`v'=`v'-mean_`v'  
+drop mean_`v'  
+}
+
+helm demean_var1 demean_var2 demean_var3
+
+pvar demean_var1 demean_var2 demean_var3, lag(3) gmm monte 500
 
 

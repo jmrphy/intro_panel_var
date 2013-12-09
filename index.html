@@ -47,8 +47,7 @@
     <ol>
 <li>What is VAR?</li>
 <li>What is Panel VAR?</li>
-<li>What can one use it for?</li>
-<li>An example</li>
+<li>Example with code</li>
 </ol>
 
   </article>
@@ -83,7 +82,69 @@
 
 <p>\[ y_{i,t} = \alpha_{i} + \sum_{k=1}^p \gamma^{(k)} y_{i,t-k} + \sum_{k=0}^p \beta_i^{(k)} x_{i,t-k} + v_{i,t} \]</p>
 
-<p>for each of the cross-sections <em>i</em> and for all <em>t</em> in [1,T].</p>
+<p>for each of the cross-sections <em>i</em> and for all <em>t</em> in [1,T], where</p>
+
+<p>\[ \gamma^{(k)} \] represents the autoregressive coefficients and
+\[ \beta_i^{(k)} \] represents the regression coefficients</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Stata Implementation</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><p>In 2006, a Stata implementation was made available by Inessa Love at the World Bank</p></li>
+<li><p>Not integrated into Stata yet, so you have to use it manually</p></li>
+</ul>
+
+<p><img src="https://dl.dropboxusercontent.com/u/20498362/Love_program.png" alt="Stata Program"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Basic Workflow</h2>
+  </hgroup>
+  <article>
+    <ol class = "build">
+<li>Time de-mean the variables</li>
+<li>Use the &quot;Helmert procedure&quot; (Arellano and Bover 1995)
+
+<ul>
+<li>removes the mean of all future observations of the unit-year.</li>
+<li>Keeps orthogonality between transformed variables and regressors so lagged regressors can be used as instruments in system GMM</li>
+</ul></li>
+<li>Estimate panel VAR using system GMM</li>
+<li>Graph impulse responses using Monte Carlo simulations</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Script</h2>
+  </hgroup>
+  <article>
+    <p>gen id=scode
+xtset id year</p>
+
+<p>foreach v of varlist var1 var2 var3 {<br>
+bysort id: egen mean<em><code>v&#39;=mean(</code>v&#39;)<br>
+gen demean_<code>v&#39;=</code>v&#39;-mean_`v&#39;<br>
+drop mean</em>`v&#39;<br>
+}</p>
+
+<p>helm demean_var1 demean_var2 demean_var3</p>
+
+<p>pvar demean_var1 demean_var2 demean_var3, lag(3) gmm monte 500</p>
 
   </article>
   <!-- Presenter Notes -->
