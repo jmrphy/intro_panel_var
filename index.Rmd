@@ -77,4 +77,16 @@ helm demean_var1 demean_var2 demean_var3
 
 pvar demean_var1 demean_var2 demean_var3, lag(3) gmm monte 500
 
+---
+
+## Thank you!
+
+These slides can be found at jmrphy.net/intro_panel_var
+
+A reference list and all the code can be found at github.com/jmrphy/intro_panel_var
+
+jmrphy.net  
+@jmrphy
+
+
 
